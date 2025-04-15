@@ -10,7 +10,7 @@ namespace Eclipseworks.Domain.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<Task> Tasks { get; set; }
+        public ICollection<ProjectTask> Tasks { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 

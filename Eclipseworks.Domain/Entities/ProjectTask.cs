@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Eclipseworks.Domain.Entities
 {
-    public sealed class Task : Entity
+    public sealed class ProjectTask : Entity
     {
         public int ProjectId { get; set; }
         public ICollection<Project> Project { get; set; }

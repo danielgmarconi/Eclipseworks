@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Eclipseworks.Domain.Entities
 {
-    public sealed class TaskComment : Entity
+    public sealed class ProjectTaskComment : Entity
     {
     }
 }
