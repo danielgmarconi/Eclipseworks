@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Eclipseworks.Application\Eclipseworks.Application.csproj" />
+    <ProjectReference Include="..\Eclipseworks.Infra.Data\Eclipseworks.Infra.Data.csproj" />
+    <ProjectReference Include="..\Eclipseworks.Infra.Encryption\Eclipseworks.Infra.Encryption.csproj" />
+    <ProjectReference Include="..\Eclipseworks.Infra.Jwt\Eclipseworks.Infra.Jwt.csproj" />
+  </ItemGroup>
+
+</Project>
