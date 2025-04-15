@@ -8,5 +8,7 @@ namespace Eclipseworks.Domain.Entities
 {
     public sealed class ProjectTaskComment : Entity
     {
+        public string Name { get; set; }
+        public string Comment { get; set; }
     }
 }

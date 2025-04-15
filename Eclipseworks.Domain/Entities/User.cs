@@ -11,5 +11,14 @@ namespace Eclipseworks.Domain.Entities
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public ICollection<Project>? Projects { get; set; }
+        public User(int id,
+                    string name,
+                    string password) 
+        {
+            Id = id;
+            Name = name;
+            Email = password;
+        }
     }
 }

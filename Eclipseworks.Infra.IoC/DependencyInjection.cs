@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Eclipseworks.Application.Interfaces;
+using Eclipseworks.Application.Mappings;
+using Eclipseworks.Application.Services;
+using Eclipseworks.Domain.Interfaces;
 using Eclipseworks.Infra.Data.Context;
 using Eclipseworks.Infra.Data.Repositories;
+using Eclipseworks.Infra.Encryption.Service;
+using Eclipseworks.Infra.Jwt.Context;
+using Eclipseworks.Infra.Jwt.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,20 +19,16 @@ namespace Eclipseworks.Infra.IoC
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                                                                                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            //services.AddScoped<IUserRepository, UserRepository>();
-            //services.AddScoped<IUserService, UserService>();
-            //services.AddScoped<IJwtService>(x => {
-            //    return new JwtService(new ApplicationJwtContext()
-            //    {
-            //        SecretKey = configuration["Jwt:Secretkey"],
-            //        Issuer = configuration["Jwt:Issuer"],
-            //        Audience = configuration["Jwt:Audience"],
-            //        ExpiresMinutes = int.Parse(configuration["Jwt:ExpiresMinutes"])
-            //    });
-            //});
-            //services.AddScoped<IEncryptionService>(x => new EncryptionService(configuration["Secretkey"]));
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IJwtService>(x => { return new JwtService(new ApplicationJwtContext(){ SecretKey = configuration["Jwt:Secretkey"],
+                                                                                                      Issuer = configuration["Jwt:Issuer"],
+                                                                                                      Audience = configuration["Jwt:Audience"],
+                                                                                                      ExpiresMinutes = int.Parse(configuration["Jwt:ExpiresMinutes"])});
+            });
+            services.AddScoped<IEncryptionService>(x => new EncryptionService(configuration["Secretkey"]));
 
-            //services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+            services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
             return services;
         }

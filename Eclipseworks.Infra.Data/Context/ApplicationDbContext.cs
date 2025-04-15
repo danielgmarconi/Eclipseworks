@@ -14,7 +14,12 @@ namespace Eclipseworks.Infra.Data.Context;
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        //public DbSet<ProjectTask> ProjectTasks { get; set; }
+        //public DbSet<ProjectTaskComment> ProjectTasksComments { get; set; }
+        //public DbSet<ProjectTaskUpdateHistory> ProjectTasksUpdateHistorys { get; set; }
+
     }

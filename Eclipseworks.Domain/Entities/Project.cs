@@ -8,9 +8,11 @@ namespace Eclipseworks.Domain.Entities
 {
     public sealed class Project : Entity
     {
+        public int UserId { get; set; }
+        public User User { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<ProjectTask> Tasks { get; set; }
+        public ICollection<ProjectTask>? Tasks { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
