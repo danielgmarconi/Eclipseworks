@@ -21,6 +21,22 @@ public class UserService : IUserService
         _jwtService = jwtService;
         _encryptionService = encryptionService;
     }
+
+    public async Task<IEnumerable<UserDTO>> GetUsers()
+    {
+        var userEntity = await _userRepository.GetUsers();
+        return _mapper.Map<IEnumerable<UserDTO>>(userEntity);
+    }
+    public async Task<UserDTO> GetById(int id)
+    {
+        var userEntity = await _userRepository.GetById(id);
+        return _mapper.Map<UserDTO>(userEntity);
+    }
+    public async Task<UserDTO> GetByEmail(string Email)
+    {
+        var userEntity = await _userRepository.GetByEmail(Email);
+        return _mapper.Map<UserDTO>(userEntity);
+    }
     public async Task<MethodResponse> Create(UserDTO userDto)
     {
         var result = new MethodResponse();
@@ -32,7 +48,7 @@ public class UserService : IUserService
                 result.Message = "Bad Request";
                 return result;
             }
-            DomainExceptionValidation.When(await _userRepository.Get(userDto.Email) != null, "Email already exists.");
+            DomainExceptionValidation.When(await _userRepository.GetByEmail(userDto.Email) != null, "Email already exists.");
             var userEntity = _mapper.Map<User>(userDto);
             userEntity.PasswordUpdate(_encryptionService.Encrypt(userEntity.Password));
             userEntity.DateCreated = DateTime.Now;
@@ -60,7 +76,7 @@ public class UserService : IUserService
                 result.Message = "Bad Request";
                 return result;
             }
-            var user = await _userRepository.Get(AuthenticationDto.Email);
+            var user = await _userRepository.GetByEmail(AuthenticationDto.Email);
             DomainExceptionValidation.When(user == null, "Invalid email or password");
             if (!_encryptionService.Valid(user.Password, AuthenticationDto.Password))
             {
@@ -80,5 +96,16 @@ public class UserService : IUserService
             result.Message = e.Message;
         }
         return result;
+    }
+    public async Task Update(UserDTO userDto)
+    {
+        var userEntity = _mapper.Map<User>(userDto);
+        await _userRepository.Update(userEntity);
+    }
+
+    public async Task Remove(int id)
+    {
+        var userEntity = _userRepository.GetById(id).Result;
+        await _userRepository.Remove(userEntity);
     }
 }

@@ -9,8 +9,11 @@ namespace Eclipseworks.Domain.Interfaces
 {
     public interface IUserRepository
     {
+        Task<IEnumerable<User>> GetUsers();
+        Task<User> GetById(int id);
+        Task<User> GetByEmail(string Email);
         Task<User> Create(User user);
-        //Task<ICollection<User>> GetByEmail(string Email);
-        Task<User> Get(string Email);
+        Task<User> Remove(User user);
+        Task<User> Update(User user);
     }
 }
