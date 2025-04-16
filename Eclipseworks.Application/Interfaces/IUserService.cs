@@ -11,6 +11,6 @@ namespace Eclipseworks.Application.Interfaces
         Task<MethodResponse> Create(UserDTO userDto);
         Task<MethodResponse> Authentication(AuthenticationDTO authenticationDto);
         Task<MethodResponse> Update(UserDTO userDto);
-        Task Remove(int id);
+        Task<MethodResponse> Remove(int id);
     }
 }

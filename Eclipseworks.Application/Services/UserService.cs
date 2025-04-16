@@ -151,15 +151,38 @@ public class UserService : IUserService
                 result.Message = "Bad Request";
                 return result;
             }
-            DomainExceptionValidation.When(user.Email.Equals(userDto.Email), "Email different from the registered one");
+            DomainExceptionValidation.When(!user.Email.Equals(userDto.Email), "Email different from the registered one");
             user.Update(userDto.Id,
                         userDto.Name,
                         _encryptionService.Encrypt(userDto.Password));
-
-
-
             await _userRepository.Update(user);
-
+            user.PasswordUpdate("");
+            result.Response = _mapper.Map<UserDTO>(user);
+            result.Success = true;
+            result.StatusCode = 200;
+        }
+            catch (Exception e)
+            {
+                result.StatusCode = 500;
+                result.Message = e.Message;
+            }
+            return result;
+    }
+    public async Task<MethodResponse> Remove(int id)
+    {
+        var result = new MethodResponse();
+        DomainExceptionValidation.When(id <= 0, "Invalid Id.");
+        try
+        {
+            var user = await _userRepository.GetById(id);
+            if (user == null)
+            {
+                result.StatusCode = 400;
+                result.Message = "Bad Request";
+                return result;
+            }
+            await _userRepository.Remove(user);
+            user.PasswordUpdate("");
             result.Response = _mapper.Map<UserDTO>(user);
             result.Success = true;
             result.StatusCode = 200;
@@ -170,10 +193,5 @@ public class UserService : IUserService
             result.Message = e.Message;
         }
         return result;
-    }
-    public async Task Remove(int id)
-    {
-        var userEntity = _userRepository.GetById(id).Result;
-        await _userRepository.Remove(userEntity);
     }
 }
