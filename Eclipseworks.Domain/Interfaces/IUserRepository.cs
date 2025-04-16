@@ -10,6 +10,7 @@ namespace Eclipseworks.Domain.Interfaces
     public interface IUserRepository
     {
         Task<User> Create(User user);
-        Task<User> GetById(string Email);
+        //Task<ICollection<User>> GetByEmail(string Email);
+        Task<User> Get(string Email);
     }
 }

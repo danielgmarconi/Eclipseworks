@@ -15,14 +15,22 @@ public class AuthorizationController : ControllerBase
     {
         _userService = userService;
     }
+    //[HttpPost]
+    //[AllowAnonymous]
+    //[Route("Register")]
+    //public async Task<IActionResult> Register([FromBody] UserDTO userDto)
+    //{
+    //    var result = await _userService.Create(userDto);
+    //    return StatusCode(result.StatusCode, result);
+    //}
+
     [HttpPost]
-    [AllowAnonymous]
     [Route("Register")]
+    [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] UserDTO userDto)
     {
-        if (userDto == null)
-            return BadRequest("Invalid Data");
-        await _userService.Create(userDto);
-        return new CreatedAtRouteResult("GetUser", new { id = userDto.Id }, userDto);
+        var result = await _userService.Create(userDto);
+        return StatusCode(result.StatusCode, result);
     }
+
 }

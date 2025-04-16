@@ -8,17 +8,23 @@ namespace Eclipseworks.Domain.Entities
 {
     public sealed class User : Entity
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Name { get; private set; }
+        public string Email { get; private set; }
+        public string Password { get; private set; }
         public ICollection<Project>? Projects { get; set; }
         public User(int id,
                     string name,
-                    string password) 
+                    string email,
+                    string password)
         {
-            Id = id;
+            Id = id; 
             Name = name;
-            Email = password;
+            Email = email;
+            Password = password;
+        }
+        public void PasswordUpdate(string password)
+        {
+            Password = password;
         }
     }
 }

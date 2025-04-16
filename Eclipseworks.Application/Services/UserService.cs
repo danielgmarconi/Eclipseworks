@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Eclipseworks.Application.Common;
 using Eclipseworks.Application.DTOs;
 using Eclipseworks.Application.Interfaces;
 using Eclipseworks.Domain.Entities;
 using Eclipseworks.Domain.Interfaces;
+using Eclipseworks.Domain.Validation;
 
 namespace Eclipseworks.Application.Services;
 
@@ -24,14 +21,27 @@ public class UserService : IUserService
         _jwtService = jwtService;
         _encryptionService = encryptionService;
     }
-    public async Task Create(UserDTO userDto)
+    public async Task<MethodResponse> Create(UserDTO userDto)
     {
-        var userEntity = _mapper.Map<User>(userDto);
-
-        //userEntity.PasswordUpdate(_encryptionService.Encrypt(userEntity.Password));
-        //var x = _jwtService.GenerateToken(1, "a@a.com");
-        //var xxx = _encryptionService.Encrypt("teste");
-        //var x1 = _encryptionService.Valid(xxx, "teste1");
-        await _userRepository.Create(userEntity);
+        var result = new MethodResponse();
+        try
+        {
+            //if (await _userRepository.Get(userDto.Email) != null)
+            DomainExceptionValidation.When(await _userRepository.Get(userDto.Email) != null, "Email already exists.");
+            var userEntity = _mapper.Map<User>(userDto);
+            userEntity.PasswordUpdate(_encryptionService.Encrypt(userEntity.Password));
+            userEntity.DateCreated = DateTime.Now;
+            await _userRepository.Create(userEntity);
+            userEntity.PasswordUpdate("");
+            result.Success = true;
+            result.StatusCode = 201;
+            result.Response = _mapper.Map<UserDTO>(userEntity);
+        }
+        catch (Exception e)
+        {
+            result.StatusCode = 500;
+            result.Message = e.Message;
+        }
+        return result;
     }
 }

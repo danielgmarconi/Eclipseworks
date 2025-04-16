@@ -1,9 +1,10 @@
-﻿using Eclipseworks.Application.DTOs;
+﻿using Eclipseworks.Application.Common;
+using Eclipseworks.Application.DTOs;
 
 namespace Eclipseworks.Application.Interfaces
 {
     public interface IUserService
     {
-        Task Create(UserDTO userDto);
+        Task<MethodResponse> Create(UserDTO userDto);
     }
 }
