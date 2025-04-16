@@ -20,6 +20,6 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.Property(t => t.EndDate).IsRequired();
         builder.Property(t => t.DateCreated).IsRequired();
         builder.HasOne(e => e.User).WithMany(e => e.Projects)
-            .HasForeignKey(e => e.UserId);
+            .HasForeignKey(e => e.UserId).OnDelete(DeleteBehavior.Restrict);
     }
 }

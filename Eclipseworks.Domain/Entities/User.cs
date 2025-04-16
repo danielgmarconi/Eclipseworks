@@ -13,20 +13,17 @@ namespace Eclipseworks.Domain.Entities
         public string Email { get; private set; }
         public string Password { get; private set; }
         public ICollection<Project>? Projects { get; set; }
+        public ICollection<ProjectTask>? ProjectTasks { get; set; }
         public User(int id,
                     string name,
                     string email,
-                    string password,
-                    DateTime dateCreated,
-                    DateTime? modificationDate)
+                    string password)
         {
             ValidateDomain(name, email, password);
             Id = id; 
             Name = name;
             Email = email;
             Password = password;
-            DateCreated = dateCreated;
-            ModificationDate = modificationDate;
         }
         public void Update(int id,
                            string name,
@@ -35,9 +32,7 @@ namespace Eclipseworks.Domain.Entities
             DomainExceptionValidation.When(id < 0, "Invalid Id value.");
             ValidateDomain(name, Email, password);
             Id = id;
-            Name = name;
-            Password = password;
-            ModificationDate =  DateTime.Now;
+            DateModification =  DateTime.Now;
         }
         public void PasswordUpdate(string password)
         {

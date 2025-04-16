@@ -10,6 +10,6 @@ namespace Eclipseworks.Domain.Entities
     {
         public int Id { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime? ModificationDate { get; set; }
+        public DateTime? DateModification { get; set; }
     }
 }
