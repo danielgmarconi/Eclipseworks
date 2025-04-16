@@ -26,7 +26,12 @@ public class UserService : IUserService
         var result = new MethodResponse();
         try
         {
-            //if (await _userRepository.Get(userDto.Email) != null)
+            if (userDto == null)
+            {
+                result.StatusCode = 400;
+                result.Message = "Bad Request";
+                return result;
+            }
             DomainExceptionValidation.When(await _userRepository.Get(userDto.Email) != null, "Email already exists.");
             var userEntity = _mapper.Map<User>(userDto);
             userEntity.PasswordUpdate(_encryptionService.Encrypt(userEntity.Password));
@@ -36,6 +41,38 @@ public class UserService : IUserService
             result.Success = true;
             result.StatusCode = 201;
             result.Response = _mapper.Map<UserDTO>(userEntity);
+        }
+        catch (Exception e)
+        {
+            result.StatusCode = 500;
+            result.Message = e.Message;
+        }
+        return result;
+    }
+    public async Task<MethodResponse> Authentication(AuthenticationDTO AuthenticationDto)
+    {
+        var result = new MethodResponse();
+        try
+        {
+            if (AuthenticationDto == null)
+            {
+                result.StatusCode = 400;
+                result.Message = "Bad Request";
+                return result;
+            }
+            var user = await _userRepository.Get(AuthenticationDto.Email);
+            DomainExceptionValidation.When(user == null, "Invalid email or password");
+            if (!_encryptionService.Valid(user.Password, AuthenticationDto.Password))
+            {
+                result.StatusCode = 401;
+                result.Message = "Unauthorized";
+            }
+            else
+            {
+                result.StatusCode = 200;
+                result.Success = true;
+                result.Response = _jwtService.GenerateToken(user.Id, user.Email);
+            }
         }
         catch (Exception e)
         {
