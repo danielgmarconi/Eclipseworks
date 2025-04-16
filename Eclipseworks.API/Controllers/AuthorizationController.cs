@@ -11,7 +11,7 @@ namespace Eclipseworks.API.Controllers;
 [ApiController]
 public class AuthorizationController : ControllerBase
 {
-    public readonly IUserService _userService;
+    private readonly IUserService _userService;
     public AuthorizationController(IUserService userService)
     {
         _userService = userService;
