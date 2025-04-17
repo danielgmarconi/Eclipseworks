@@ -20,6 +20,4 @@ namespace Eclipseworks.Infra.Data.Context;
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectTask> ProjectTasks { get; set; }
         public DbSet<ProjectTaskComment> ProjectTasksComments { get; set; }
-        //public DbSet<ProjectTaskUpdateHistory> ProjectTasksUpdateHistorys { get; set; }
-
     }
