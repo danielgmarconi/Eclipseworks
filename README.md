@@ -15,7 +15,6 @@ A aplicação tem como objetivo gerenciar projetos com controle de tarefas.
 
 Todas as nomenclaturas de variáveis e métodos seguem o padrão em inglês.
 
-
 ## Detalhamaneto das camadas
 
 ### Eclipseworks.API

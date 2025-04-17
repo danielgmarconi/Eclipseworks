@@ -1,4 +1,5 @@
 ﻿using Eclipseworks.Domain.Enums;
+using Eclipseworks.Domain.Validation;
 
 namespace Eclipseworks.Domain.Entities
 {
@@ -24,10 +25,13 @@ namespace Eclipseworks.Domain.Entities
                            DateTime? endDate,
                            PriorityStatus priority,
                            ProjectTaskStatus status,
-                           Int16 timeHoursTask
-                           )
+                           Int16 timeHoursTask)
         {
-            
+            DomainExceptionValidation.When(string.IsNullOrEmpty(name),
+                                           "Invalid name. Name is required");
+            DomainExceptionValidation.When(!(name.Length >= 3 && name.Length <= 200),
+                                           "Invalid name, must be greater than or equal to 3 and less than 200 characters");
+
         }
     }
 }
