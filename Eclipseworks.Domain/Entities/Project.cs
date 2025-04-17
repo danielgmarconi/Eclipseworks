@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Eclipseworks.Domain.Validation;
 
 namespace Eclipseworks.Domain.Entities
@@ -16,53 +17,50 @@ namespace Eclipseworks.Domain.Entities
         public ICollection<ProjectTask>? ProjectTasks { get; set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
-        //public Project(int id,
-        //               string name,
-        //               string description,
-        //               DateTime startDate,
-        //               DateTime endDate, 
-        //               DateTime dateCreated,
-        //               DateTime? dateModification)
-        //{            
-        //    ValidateDomain(name, description, startDate, endDate);
-        //    Id = id;
-        //    DateCreated = dateCreated;
-        //    DateModification = dateModification;
-        //}
+        public Project(string name,
+                       string description,
+                       DateTime startDate,
+                       DateTime endDate)
+        {
+            ValidateDomain(name, description, startDate, endDate);
+        }
 
-        //public void Update(int id,
-        //                   string name,
-        //                   string description,
-        //                   DateTime startDate,
-        //                   DateTime endDate)
-        //{
-        //    DomainExceptionValidation.When(id < 0, "Invalid Id value.");
-        //    ValidateDomain(name, description, startDate, endDate);
-        //    Id = id;
-        //    DateModification = DateTime.Now;            
-        //}
-        //private void ValidateDomain(string name,
-        //                            string description,
-        //                            DateTime startDate,
-        //                            DateTime endDate)
-        //{
-        //    DomainExceptionValidation.When(string.IsNullOrEmpty(name),
-        //                                   "Invalid name. Name is required");
-        //    DomainExceptionValidation.When(!(name.Length >= 3 && name.Length <= 200),
-        //                                   "Invalid name, must be greater than or equal to 3 and less than 200 characters");
-        //    DomainExceptionValidation.When(string.IsNullOrEmpty(description),
-        //                                   "Invalid email. Name is required");
-        //    DomainExceptionValidation.When(!(description.Length >= 10 && description.Length <= 1000),
-        //                                    "Invalid email, must be greater than or equal to 10 and less than 1000 characters");
-        //    DomainExceptionValidation.When(startDate > endDate,
-        //                                   "StartDate cannot be greater than EndDate");
-        //    DomainExceptionValidation.When(endDate < startDate,
-        //                                   "EndDate cannot be less than StartDate");
-        //    Name = name;
-        //    Description = description;
-        //    StartDate = startDate;
-        //    EndDate = endDate;
-        //}
+        public void Update(int userId,
+                           string name,
+                           string description,
+                           DateTime startDate,
+                           DateTime endDate)
+        {
+            DomainExceptionValidation.When(userId < 0, "Invalid UserId value.");
+            ValidateDomain(name, description, startDate, endDate);
+            DateModification = DateTime.Now;
+        }
+        public void ValidateDomain(string name,
+                                    string description,
+                                    DateTime startDate,
+                                    DateTime endDate)
+        {
+            DomainExceptionValidation.When(string.IsNullOrEmpty(name),
+                                           "Invalid name. Name is required");
+            DomainExceptionValidation.When(!(name.Length >= 3 && name.Length <= 200),
+                                           "Invalid name, must be greater than or equal to 3 and less than 200 characters");
+            DomainExceptionValidation.When(string.IsNullOrEmpty(description),
+                                           "Invalid email. Name is required");
+            DomainExceptionValidation.When(!(description.Length >= 10 && description.Length <= 1000),
+                                            "Invalid email, must be greater than or equal to 10 and less than 1000 characters");
+            DomainExceptionValidation.When(DateTime.Now.Date >= startDate,
+                                           "StartDate must be equal to or greater than the current date.");
+            DomainExceptionValidation.When(DateTime.Now.Date >= endDate,
+                                           "EndDate must be equal to or greater than the current date.");
+            DomainExceptionValidation.When(startDate > endDate,
+                                           "StartDate cannot be greater than EndDate");
+            DomainExceptionValidation.When(endDate < startDate,
+                                           "EndDate cannot be less than StartDate");
+            Name = name;
+            Description = description;
+            StartDate = startDate;
+            EndDate = endDate;
+        }
 
     }
 }

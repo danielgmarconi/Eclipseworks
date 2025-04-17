@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eclipseworks.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250416180017_Start")]
+    [Migration("20250416191202_Start")]
     partial class Start
     {
         /// <inheritdoc />

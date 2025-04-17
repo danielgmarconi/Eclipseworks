@@ -60,7 +60,7 @@ public class UserService : IUserService
         var result = new MethodResponse();
         try
         {
-            DomainExceptionValidation.When(string.IsNullOrEmpty(Email), "Invalid Id.");
+            DomainExceptionValidation.When(string.IsNullOrEmpty(Email), "Invalid Email.");
             result.Response = _mapper.Map<UserDTO>(await _userRepository.GetByEmail(Email));
             result.Success = true;
             result.StatusCode = 200;
