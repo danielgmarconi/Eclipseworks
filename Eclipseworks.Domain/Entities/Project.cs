@@ -48,10 +48,6 @@ namespace Eclipseworks.Domain.Entities
                                            "Invalid email. Name is required");
             DomainExceptionValidation.When(!(description.Length >= 10 && description.Length <= 1000),
                                             "Invalid email, must be greater than or equal to 10 and less than 1000 characters");
-            DomainExceptionValidation.When(DateTime.Now.Date >= startDate,
-                                           "StartDate must be equal to or greater than the current date.");
-            DomainExceptionValidation.When(DateTime.Now.Date >= endDate,
-                                           "EndDate must be equal to or greater than the current date.");
             DomainExceptionValidation.When(startDate > endDate,
                                            "StartDate cannot be greater than EndDate");
             DomainExceptionValidation.When(endDate < startDate,

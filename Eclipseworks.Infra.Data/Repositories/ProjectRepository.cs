@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Eclipseworks.Domain.Entities;
+﻿using Eclipseworks.Domain.Entities;
 using Eclipseworks.Domain.Interfaces;
 using Eclipseworks.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
