@@ -1,7 +1,6 @@
 ﻿using Eclipseworks.Application.DTOs;
 using Eclipseworks.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Eclipseworks.API.Controllers;
