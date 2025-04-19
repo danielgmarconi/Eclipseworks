@@ -12,7 +12,7 @@ public class ProjectTaskRepository : IProjectTaskRepository
     {
         _context = context;
     }
-    public async Task<IEnumerable<ProjectTask>> GetProjects()
+    public async Task<IEnumerable<ProjectTask>> GetProjectTasks()
     {
         return await _context.ProjectTasks.ToListAsync();
     }

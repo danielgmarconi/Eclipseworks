@@ -9,7 +9,7 @@ namespace Eclipseworks.Domain.Interfaces
 {
     public interface IProjectTaskRepository
     {
-        Task<IEnumerable<ProjectTask>> GetProjects();
+        Task<IEnumerable<ProjectTask>> GetProjectTasks();
         Task<ProjectTask> GetById(int id);
         Task<ProjectTask> GetByName(string name);
         Task<ProjectTask> Create(ProjectTask projectTask);

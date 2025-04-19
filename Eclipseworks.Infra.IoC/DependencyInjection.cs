@@ -21,8 +21,10 @@ namespace Eclipseworks.Infra.IoC
                                                                                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IProjectTaskService, ProjectTaskService>();
             services.AddScoped<IJwtService>(x => { return new JwtService(new ApplicationJwtContext(){ SecretKey = configuration["Jwt:Secretkey"],
                                                                                                       Issuer = configuration["Jwt:Issuer"],
                                                                                                       Audience = configuration["Jwt:Audience"],

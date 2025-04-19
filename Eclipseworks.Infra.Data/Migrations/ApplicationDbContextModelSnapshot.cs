@@ -78,17 +78,19 @@ namespace Eclipseworks.Infra.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
+                    b.Property<byte>("Priority")
+                        .HasColumnType("tinyint");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -96,8 +98,8 @@ namespace Eclipseworks.Infra.Data.Migrations
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
 
                     b.Property<short>("TimeHoursTask")
                         .HasColumnType("smallint");
@@ -188,13 +190,13 @@ namespace Eclipseworks.Infra.Data.Migrations
                     b.HasOne("Eclipseworks.Domain.Entities.Project", "Project")
                         .WithMany("ProjectTasks")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Eclipseworks.Domain.Entities.User", "User")
                         .WithMany("ProjectTasks")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Project");
