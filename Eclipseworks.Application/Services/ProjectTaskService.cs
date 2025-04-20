@@ -33,7 +33,10 @@ namespace Eclipseworks.Application.Services
             }
             try
             {
-                var projectTaskEntity = _mapper.Map<ProjectTask>(projectTaskDTO);
+
+
+
+                var projectTaskEntity = new ProjectTask(projectTaskDTO.Name, projectTaskDTO.Description, )
                 projectTaskEntity.StatusUpdate(ProjectTaskStatus.none);
                 projectTaskEntity.DateCreated = DateTime.Now;
                 await _projectTaskRepository.Create(projectTaskEntity);

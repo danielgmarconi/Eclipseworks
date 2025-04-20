@@ -19,7 +19,7 @@ namespace Eclipseworks.Domain.Entities
         public Int16 TimeHoursTask { get; private set; }
         public ProjectTask(string name,
                            string description,
-                           PriorityStatus priority,
+                           string priority,
                            Int16 timeHoursTask)
         {
             DomainExceptionValidation.When(string.IsNullOrEmpty(name),
@@ -34,7 +34,7 @@ namespace Eclipseworks.Domain.Entities
                                            "TimeHoursTask must be greater than zero");
             Name = name;
             Description = description;
-            Priority = priority;
+            Priority = Enum.Parse<PriorityStatus>(priority, ignoreCase: true);
             Status = ProjectTaskStatus.none;
             TimeHoursTask = timeHoursTask;
         }
@@ -62,6 +62,18 @@ namespace Eclipseworks.Domain.Entities
             Priority = priority;
             Status = ProjectTaskStatus.none;
             TimeHoursTask = timeHoursTask;
+        }
+        public void TaskStart()
+        {
+            Status = ProjectTaskStatus.started;
+            StartDate = DateTime.Now;
+            DateModification = StartDate;
+        }
+        public void TaskEnd()
+        {
+            Status = ProjectTaskStatus.finished;
+            EndDate = DateTime.Now;
+            DateModification = EndDate;
         }
         public void StatusUpdate(ProjectTaskStatus status)
         {

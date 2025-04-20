@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Eclipseworks.Application.Services
 {
-    internal class ProjectTaskCommentService
+    public class ProjectTaskCommentService
     {
     }
 }
