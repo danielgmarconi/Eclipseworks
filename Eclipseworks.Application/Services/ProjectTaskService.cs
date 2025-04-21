@@ -49,14 +49,13 @@ namespace Eclipseworks.Application.Services
             }
             return result;
         }
-
-        public async Task<MethodResponse> GetById(int id)
+        public async Task<MethodResponse> Get(int id)
         {
             var result = new MethodResponse();
             try
             {
                 DomainExceptionValidation.When(id <= 0, "Invalid Id.");
-                result.Response = _mapper.Map<ProjectTaskDTO>(await _projectTaskRepository.GetById(id));
+                result.Response = _mapper.Map<ProjectTaskDTO>(await _projectTaskRepository.Get(id));
                 result.Success = true;
                 result.StatusCode = 200;
             }
@@ -67,14 +66,31 @@ namespace Eclipseworks.Application.Services
             }
             return result;
         }
-
-        public async Task<MethodResponse> GetByName(string name)
+        public async Task<MethodResponse> Get(int id, int projectId)
+        {
+            var result = new MethodResponse();
+            try
+            {
+                DomainExceptionValidation.When(id <= 0, "Invalid Id.");
+                DomainExceptionValidation.When(projectId <= 0, "Invalid projectId.");
+                result.Response = _mapper.Map<ProjectTaskDTO>(await _projectTaskRepository.Get(id, projectId));
+                result.Success = true;
+                result.StatusCode = 200;
+            }
+            catch (Exception e)
+            {
+                result.StatusCode = 500;
+                result.Message = e.Message;
+            }
+            return result;
+        }
+        public async Task<MethodResponse> Get(string name)
         {
             var result = new MethodResponse();
             try
             {
                 DomainExceptionValidation.When(string.IsNullOrEmpty(name), "Invalid Name.");
-                result.Response = _mapper.Map<ProjectTaskDTO>(await _projectTaskRepository.GetByName(name));
+                result.Response = _mapper.Map<ProjectTaskDTO>(await _projectTaskRepository.Get(name));
                 result.Success = true;
                 result.StatusCode = 200;
             }
@@ -85,7 +101,6 @@ namespace Eclipseworks.Application.Services
             }
             return result;
         }
-
         public async Task<MethodResponse> GetProjectTasks()
         {
             var result = new MethodResponse();
@@ -102,12 +117,27 @@ namespace Eclipseworks.Application.Services
             }
             return result;
         }
-
+        public async Task<MethodResponse> GetByProject(int projectId)
+        {
+            var result = new MethodResponse();
+            try
+            {
+                DomainExceptionValidation.When(projectId <= 0, "Invalid projectId.");
+                result.Response = _mapper.Map<IEnumerable<ProjectTaskDTO>>(await _projectTaskRepository.GetByProject(projectId));
+                result.Success = true;
+                result.StatusCode = 200;
+            }
+            catch (Exception e)
+            {
+                result.StatusCode = 500;
+                result.Message = e.Message;
+            }
+            return result;
+        }
         public Task<MethodResponse> Remove(int id)
         {
             throw new NotImplementedException();
         }
-
         public async Task<MethodResponse> Update(ProjectTaskDTO projectTaskDTO)
         {
             var result = new MethodResponse();
@@ -120,20 +150,18 @@ namespace Eclipseworks.Application.Services
             try
             {
                 DomainExceptionValidation.When(projectTaskDTO.Id <= 0, "Invalid Id.");
-                var projectTask = await _projectTaskRepository.GetById(projectTaskDTO.Id);
+                var projectTask = await _projectTaskRepository.Get(projectTaskDTO.Id);
                 if (projectTask == null)
                 {
                     result.StatusCode = 400;
                     result.Message = "Bad Request";
                     return result;
                 }
-                //projectTask.Update(projectDTO.UserId,
-                //               projectDTO.Name,
-                //               projectDTO.Description,
-                //               projectDTO.StartDate,
-                //               projectDTO.EndDate);
-                //await _projectRepository.Update(project);
-                //result.Response = _mapper.Map<ProjectDTO>(project);
+                projectTask.Update(projectTaskDTO.Name,
+                                   projectTaskDTO.Description,
+                                   projectTaskDTO.Priority,
+                                   projectTaskDTO.TimeHoursTask);
+                result.Response = _mapper.Map<ProjectTaskDTO>(projectTask);
                 result.Success = true;
                 result.StatusCode = 200;
             }

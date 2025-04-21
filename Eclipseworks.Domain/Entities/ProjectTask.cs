@@ -19,49 +19,51 @@ namespace Eclipseworks.Domain.Entities
         public Int16 TimeHoursTask { get; private set; }
         public ProjectTask(string name,
                            string description,
-                           string priority,
-                           Int16 timeHoursTask)
-        {
-            DomainExceptionValidation.When(string.IsNullOrEmpty(name),
-                                           "Invalid name. Name is required");
-            DomainExceptionValidation.When(!(name.Length >= 3 && name.Length <= 200),
-                                           "Invalid name, must be greater than or equal to 3 and less than 200 characters");
-            DomainExceptionValidation.When(string.IsNullOrEmpty(description),
-                                           "Invalid email. Name is required");
-            DomainExceptionValidation.When(!(description.Length >= 10 && description.Length <= 1000),
-                                           "Invalid email, must be greater than or equal to 10 and less than 1000 characters");
-            DomainExceptionValidation.When(timeHoursTask <= 0,
-                                           "TimeHoursTask must be greater than zero");
-            Name = name;
-            Description = description;
-            Priority = Enum.Parse<PriorityStatus>(priority, ignoreCase: true);
-            Status = ProjectTaskStatus.none;
-            TimeHoursTask = timeHoursTask;
-        }
-        public void Update(string name,
-                           string description,
                            PriorityStatus priority,
                            Int16 timeHoursTask)
         {
             DomainExceptionValidation.When(string.IsNullOrEmpty(name),
-                               "Invalid name. Name is required");
+                                           "Name is required");
             DomainExceptionValidation.When(!(name.Length >= 3 && name.Length <= 200),
                                            "Invalid name, must be greater than or equal to 3 and less than 200 characters");
             DomainExceptionValidation.When(string.IsNullOrEmpty(description),
-                                           "Invalid email. Name is required");
+                                           "Description is required");
             DomainExceptionValidation.When(!(description.Length >= 10 && description.Length <= 1000),
-                                           "Invalid email, must be greater than or equal to 10 and less than 1000 characters");
-            DomainExceptionValidation.When(TimeHoursTask <= 0,
+                                           "Invalid description, must be greater than or equal to 10 and less than 1000 characters");
+            DomainExceptionValidation.When(timeHoursTask <= 0,
                                            "TimeHoursTask must be greater than zero");
-            DomainExceptionValidation.When(StartDate != null && priority != Priority,
-                                           "The priority cannot be changed, the task has already been started.");
-            DomainExceptionValidation.When(StartDate != null && timeHoursTask != TimeHoursTask,
-                                           "The amount of time cannot be changed, the task has already been started.");
             Name = name;
             Description = description;
             Priority = priority;
             Status = ProjectTaskStatus.none;
             TimeHoursTask = timeHoursTask;
+        }
+        public void Update(string name,
+                           string description,
+                           string priority,
+                           Int16 timeHoursTask)
+        {
+            var _Priority = Enum.Parse<PriorityStatus>(priority, ignoreCase: true);
+            DomainExceptionValidation.When(string.IsNullOrEmpty(name),
+                                           "Name is required");
+            DomainExceptionValidation.When(!(name.Length >= 3 && name.Length <= 200),
+                                           "Invalid name, must be greater than or equal to 3 and less than 200 characters");
+            DomainExceptionValidation.When(string.IsNullOrEmpty(description),
+                                           "Description is required");
+            DomainExceptionValidation.When(!(description.Length >= 10 && description.Length <= 1000),
+                                           "Invalid description, must be greater than or equal to 10 and less than 1000 characters");
+            DomainExceptionValidation.When(TimeHoursTask <= 0,
+                                           "TimeHoursTask must be greater than zero");
+            DomainExceptionValidation.When(StartDate != null && _Priority != Priority,
+                                           "The priority cannot be changed, the task has already been started.");
+            DomainExceptionValidation.When(StartDate != null && timeHoursTask != TimeHoursTask,
+                                           "The amount of time cannot be changed, the task has already been started.");
+            Name = name;
+            Description = description;
+            Priority = _Priority;
+            Status = ProjectTaskStatus.none;
+            TimeHoursTask = timeHoursTask;
+            DateModification = DateTime.Now;
         }
         public void TaskStart()
         {

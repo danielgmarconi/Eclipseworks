@@ -11,8 +11,10 @@ namespace Eclipseworks.Application.Interfaces
     public interface IProjectTaskService
     {
         Task<MethodResponse> GetProjectTasks();
-        Task<MethodResponse> GetById(int id);
-        Task<MethodResponse> GetByName(string name);
+        Task<MethodResponse> Get(int id);
+        Task<MethodResponse> Get(int id, int projectId);
+        Task<MethodResponse> Get(string name);
+        Task<MethodResponse> GetByProject(int projectId);
         Task<MethodResponse> Create(ProjectTaskDTO projectTaskDTO);
         Task<MethodResponse> Update(ProjectTaskDTO projectTaskDTO);
         Task<MethodResponse> Remove(int id);

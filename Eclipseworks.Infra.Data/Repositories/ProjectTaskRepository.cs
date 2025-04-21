@@ -16,13 +16,21 @@ public class ProjectTaskRepository : IProjectTaskRepository
     {
         return await _context.ProjectTasks.ToListAsync();
     }
-    public async Task<ProjectTask> GetById(int id)
+    public async Task<ProjectTask> Get(int id)
     {
         return await _context.ProjectTasks.FindAsync(id);
     }
-    public async Task<ProjectTask> GetByName(string name)
+    public async Task<ProjectTask> Get(string name)
     {
         return await _context.ProjectTasks.Where(e => e.Name.ToLower().Contains(name)).FirstOrDefaultAsync();
+    }
+    public async Task<ProjectTask> Get(int id, int projectId)
+    {
+        return await _context.ProjectTasks.Where(e => e.Id == id && e.ProjectId == projectId).FirstOrDefaultAsync();
+    }
+    public async Task<IEnumerable<ProjectTask>> GetByProject(int projectId)
+    {
+        return await _context.ProjectTasks.Where(e => e.ProjectId == projectId).ToListAsync();
     }
     public async Task<ProjectTask> Create(ProjectTask projectTask)
     {

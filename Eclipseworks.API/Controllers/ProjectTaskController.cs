@@ -24,21 +24,28 @@ namespace Eclipseworks.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _projectTaskService.GetById(id);
+            var result = await _projectTaskService.Get(id);
+            return StatusCode(result.StatusCode, result);
+        }
+        [HttpGet("{name}")]
+        public async Task<IActionResult> Get(string name)
+        {
+            var result = await _projectTaskService.Get(name);
             return StatusCode(result.StatusCode, result);
         }
         [HttpGet("{id:int}/{projectId:int}")]
         public async Task<IActionResult> Get(int id, int projectId)
         {
-            var result = await _projectTaskService.GetById(id);
+            var result = await _projectTaskService.Get(id, projectId);
             return StatusCode(result.StatusCode, result);
         }
-        //[HttpGet("{projectId:int}")]
-        //public async Task<IActionResult> GetByProject(int projectId)
-        //{
-        //    var result = await _projectTaskService.GetById(projectId);
-        //    return StatusCode(result.StatusCode, result);
-        //}
+        [HttpGet]
+        [Route("GetByProject/{projectId:int}")]
+        public async Task<IActionResult> GetByProject(int projectId)
+        {
+            var result = await _projectTaskService.GetByProject(projectId);
+            return StatusCode(result.StatusCode, result);
+        }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ProjectTaskDTO projectTaskDTO)
         {
