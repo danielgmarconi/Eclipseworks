@@ -17,6 +17,8 @@ namespace Eclipseworks.Application.Interfaces
         Task<MethodResponse> GetByProject(int projectId);
         Task<MethodResponse> Create(ProjectTaskDTO projectTaskDTO);
         Task<MethodResponse> Update(ProjectTaskDTO projectTaskDTO);
+        Task<MethodResponse> TaskStart(int id);
+        Task<MethodResponse> TaskFinished(int id);
         Task<MethodResponse> Remove(int id);
     }
 }

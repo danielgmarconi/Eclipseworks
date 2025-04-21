@@ -62,14 +62,14 @@ namespace Eclipseworks.API.Controllers
         [Route("TaskStart/{id:int}")]
         public async Task<IActionResult> TaskStart(int id)
         {
-            var result = await _projectTaskService.Update(null);
+            var result = await _projectTaskService.TaskStart(id);
             return StatusCode(result.StatusCode, result);
         }
         [HttpPut]
         [Route("TaskFinished/{id:int}")]
         public async Task<IActionResult> TaskFinished(int id)
         {
-            var result = await _projectTaskService.Update(null);
+            var result = await _projectTaskService.TaskFinished(id);
             return StatusCode(result.StatusCode, result);
         }
         [HttpDelete("{id:int}")]

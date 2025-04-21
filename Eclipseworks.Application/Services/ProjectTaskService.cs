@@ -139,9 +139,30 @@ namespace Eclipseworks.Application.Services
             }
             return result;
         }
-        public Task<MethodResponse> Remove(int id)
+        public async Task<MethodResponse> Remove(int id)
         {
-            throw new NotImplementedException();
+            var result = new MethodResponse();
+            DomainExceptionValidation.When(id <= 0, "Invalid Id.");
+            try
+            {
+                var projectTask = await _projectTaskRepository.Get(id);
+                if (projectTask == null)
+                {
+                    result.StatusCode = 400;
+                    result.Message = "Bad Request";
+                    return result;
+                }
+                await _projectTaskRepository.Remove(projectTask);
+                result.Response = _mapper.Map<ProjectTaskDTO>(projectTask);
+                result.Success = true;
+                result.StatusCode = 200;
+            }
+            catch (Exception e)
+            {
+                result.StatusCode = 500;
+                result.Message = e.Message;
+            }
+            return result;
         }
         public async Task<MethodResponse> Update(ProjectTaskDTO projectTaskDTO)
         {
@@ -166,6 +187,61 @@ namespace Eclipseworks.Application.Services
                                    projectTaskDTO.Description,
                                    projectTaskDTO.Priority,
                                    projectTaskDTO.TimeHoursTask);
+                await _projectTaskRepository.Update(projectTask);
+                result.Response = _mapper.Map<ProjectTaskDTO>(projectTask);
+                result.Success = true;
+                result.StatusCode = 200;
+            }
+            catch (Exception e)
+            {
+                result.StatusCode = 500;
+                result.Message = e.Message;
+            }
+            return result;
+        }
+        public async Task<MethodResponse> TaskStart(int id)
+        {
+            var result = new MethodResponse();
+            try
+            {
+                DomainExceptionValidation.When(id <= 0, "Invalid Id.");
+                var projectTask = await _projectTaskRepository.Get(id);
+                if (projectTask == null)
+                {
+                    result.StatusCode = 400;
+                    result.Message = "Bad Request";
+                    return result;
+                }
+                DomainExceptionValidation.When(projectTask.Status != ProjectTaskStatus.none, "Failed to start.");
+                projectTask.TaskStart();
+                await _projectTaskRepository.Update(projectTask);
+                result.Response = _mapper.Map<ProjectTaskDTO>(projectTask);
+                result.Success = true;
+                result.StatusCode = 200;
+            }
+            catch (Exception e)
+            {
+                result.StatusCode = 500;
+                result.Message = e.Message;
+            }
+            return result;
+        }
+        public async Task<MethodResponse> TaskFinished(int id)
+        {
+            var result = new MethodResponse();
+            try
+            {
+                DomainExceptionValidation.When(id <= 0, "Invalid Id.");
+                var projectTask = await _projectTaskRepository.Get(id);
+                if (projectTask == null)
+                {
+                    result.StatusCode = 400;
+                    result.Message = "Bad Request";
+                    return result;
+                }
+                DomainExceptionValidation.When(projectTask.Status != ProjectTaskStatus.started, "Failed to finish.");
+                projectTask.TaskEnd();
+                await _projectTaskRepository.Update(projectTask);
                 result.Response = _mapper.Map<ProjectTaskDTO>(projectTask);
                 result.Success = true;
                 result.StatusCode = 200;
