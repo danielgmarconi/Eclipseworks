@@ -34,7 +34,12 @@ namespace Eclipseworks.Application.Services
             }
             try
             {
-                var projectTaskEntity = new ProjectTask(projectTaskDTO.Name, projectTaskDTO.Description, projectTaskDTO.Priority, projectTaskDTO.TimeHoursTask);
+                var projectTaskEntity = new ProjectTask(projectTaskDTO.UserId,
+                                                        projectTaskDTO.ProjectId,
+                                                        projectTaskDTO.Name, 
+                                                        projectTaskDTO.Description,
+                                                        Enum.Parse<PriorityStatus>(projectTaskDTO.Priority, ignoreCase: true), 
+                                                        projectTaskDTO.TimeHoursTask);
                 projectTaskEntity.StatusUpdate(ProjectTaskStatus.none);
                 projectTaskEntity.DateCreated = DateTime.Now;
                 await _projectTaskRepository.Create(projectTaskEntity);

@@ -17,11 +17,17 @@ namespace Eclipseworks.Domain.Entities
         public PriorityStatus Priority { get; private set; } = PriorityStatus.low;
         public ProjectTaskStatus Status { get; private set; } = ProjectTaskStatus.none;
         public Int16 TimeHoursTask { get; private set; }
-        public ProjectTask(string name,
+        public ProjectTask(int userId,
+                           int projectId,
+                           string name,
                            string description,
                            PriorityStatus priority,
                            Int16 timeHoursTask)
         {
+            DomainExceptionValidation.When(userId <= 0,
+                                           "ProjectId is required");
+            DomainExceptionValidation.When(projectId <= 0,
+                                           "ProjectId is required");
             DomainExceptionValidation.When(string.IsNullOrEmpty(name),
                                            "Name is required");
             DomainExceptionValidation.When(!(name.Length >= 3 && name.Length <= 200),
@@ -32,6 +38,8 @@ namespace Eclipseworks.Domain.Entities
                                            "Invalid description, must be greater than or equal to 10 and less than 1000 characters");
             DomainExceptionValidation.When(timeHoursTask <= 0,
                                            "TimeHoursTask must be greater than zero");
+            UserId = userId;
+            ProjectId = projectId;
             Name = name;
             Description = description;
             Priority = priority;
