@@ -27,6 +27,12 @@ public class ProjectController : ControllerBase
         var result = await _projectService.GetById(id);
         return StatusCode(result.StatusCode, result);
     }
+    [HttpGet("{name}")]
+    public async Task<IActionResult> GetByName(string name)
+    {
+        var result = await _projectService.GetByName(name);
+        return StatusCode(result.StatusCode, result);
+    }
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] ProjectDTO projectDTO)
     {

@@ -33,12 +33,12 @@ namespace Eclipseworks.API.Controllers
             var result = await _projectTaskService.GetById(id);
             return StatusCode(result.StatusCode, result);
         }
-        [HttpGet("{projectId:int}")]
-        public async Task<IActionResult> GetByProject(int projectId)
-        {
-            var result = await _projectTaskService.GetById(projectId);
-            return StatusCode(result.StatusCode, result);
-        }
+        //[HttpGet("{projectId:int}")]
+        //public async Task<IActionResult> GetByProject(int projectId)
+        //{
+        //    var result = await _projectTaskService.GetById(projectId);
+        //    return StatusCode(result.StatusCode, result);
+        //}
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ProjectTaskDTO projectTaskDTO)
         {
@@ -49,6 +49,20 @@ namespace Eclipseworks.API.Controllers
         public async Task<IActionResult> Put([FromBody] ProjectTaskDTO projectTaskDTO)
         {
             var result = await _projectTaskService.Update(projectTaskDTO);
+            return StatusCode(result.StatusCode, result);
+        }
+        [HttpPut]
+        [Route("TaskStart/{id:int}")]
+        public async Task<IActionResult> TaskStart(int id)
+        {
+            var result = await _projectTaskService.Update(null);
+            return StatusCode(result.StatusCode, result);
+        }
+        [HttpPut]
+        [Route("TaskFinished/{id:int}")]
+        public async Task<IActionResult> TaskFinished(int id)
+        {
+            var result = await _projectTaskService.Update(null);
             return StatusCode(result.StatusCode, result);
         }
         [HttpDelete("{id:int}")]

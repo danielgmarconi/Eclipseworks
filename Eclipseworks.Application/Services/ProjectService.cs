@@ -57,7 +57,7 @@ namespace Eclipseworks.Application.Services
             try
             {
                 DomainExceptionValidation.When(string.IsNullOrEmpty(name), "Invalid Name.");
-                result.Response = _mapper.Map<UserDTO>(await _projectRepository.GetByName(name));
+                result.Response = _mapper.Map<ProjectDTO>(await _projectRepository.GetByName(name));
                 result.Success = true;
                 result.StatusCode = 200;
             }
