@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Eclipseworks.Application.Common;
+﻿using Eclipseworks.Application.Common;
 using Eclipseworks.Application.DTOs;
 
 namespace Eclipseworks.Application.Interfaces

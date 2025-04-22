@@ -21,9 +21,9 @@ namespace Eclipseworks.Infra.Data.Repositories
         {
             return await _context.ProjectTaskComments.FindAsync(id);
         }
-        public async Task<IEnumerable<ProjectTaskComment>> GetByProjectTask(int id)
+        public async Task<IEnumerable<ProjectTaskComment>> GetByProjectTask(int projectTaskId)
         {
-            return await _context.ProjectTaskComments.Where(e => e.ProjectTaskId == id).ToListAsync();
+            return await _context.ProjectTaskComments.Where(e => e.ProjectTaskId == projectTaskId).ToListAsync();
         }
         public async Task<ProjectTaskComment> Create(ProjectTaskComment projectTaskComment)
         {
