@@ -14,6 +14,7 @@ namespace Eclipseworks.Domain.Entities
         public string Password { get; private set; }
         public ICollection<Project>? Projects { get; set; }
         public ICollection<ProjectTask>? ProjectTasks { get; set; }
+        public ICollection<ProjectTaskComment>? ProjectTaskComments { get; set; }
         public User(int id,
                     string name,
                     string email,
