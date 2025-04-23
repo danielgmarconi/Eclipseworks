@@ -22,9 +22,11 @@ namespace Eclipseworks.Infra.IoC
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
+            services.AddScoped<IProjectTaskCommentRepository, ProjectTaskCommentRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IProjectTaskService, ProjectTaskService>();
+            services.AddScoped<IProjectTaskCommentService, ProjectTaskCommentService>();
             services.AddScoped<IJwtService>(x => { return new JwtService(new ApplicationJwtContext(){ SecretKey = configuration["Jwt:Secretkey"],
                                                                                                       Issuer = configuration["Jwt:Issuer"],
                                                                                                       Audience = configuration["Jwt:Audience"],

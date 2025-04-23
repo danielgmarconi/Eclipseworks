@@ -33,7 +33,6 @@ namespace Eclipseworks.Application.Services
             }
             return result;
         }
-
         public async Task<MethodResponse> GetById(int id)
         {
             var result = new MethodResponse();
@@ -68,7 +67,6 @@ namespace Eclipseworks.Application.Services
             }
             return result;
         }
-
         public async Task<MethodResponse> Update(ProjectDTO projectDTO)
         {
             var result = new MethodResponse();
