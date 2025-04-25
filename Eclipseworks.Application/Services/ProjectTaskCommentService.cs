@@ -28,12 +28,13 @@ public class ProjectTaskCommentService : IProjectTaskCommentService
         }
         try
         {
-            var ProjectTaskCommentEntity = _mapper.Map<ProjectTaskComment>(projectTaskCommentDTO);
-            ProjectTaskCommentEntity.DateCreated = DateTime.Now;
-            await _projectTaskCommentRepository.Create(ProjectTaskCommentEntity);
+            var projectTaskCommentEntity = _mapper.Map<ProjectTaskComment>(projectTaskCommentDTO);
+            projectTaskCommentEntity.ValidateDomain();
+            projectTaskCommentEntity.DateCreated = DateTime.Now;
+            await _projectTaskCommentRepository.Create(projectTaskCommentEntity);
             result.Success = true;
             result.StatusCode = 201;
-            result.Response = _mapper.Map<ProjectTaskCommentDTO>(ProjectTaskCommentEntity);
+            result.Response = _mapper.Map<ProjectTaskCommentDTO>(projectTaskCommentEntity);
         }
         catch (Exception e)
         {
@@ -65,7 +66,7 @@ public class ProjectTaskCommentService : IProjectTaskCommentService
         try
         {
             DomainExceptionValidation.When(projectTaskId <= 0, "Invalid Id.");
-            result.Response = _mapper.Map<ProjectTaskCommentDTO>(await _projectTaskCommentRepository.GetByProjectTask(projectTaskId));
+            result.Response = _mapper.Map<IEnumerable<ProjectTaskCommentDTO>>(await _projectTaskCommentRepository.GetByProjectTask(projectTaskId));
             result.Success = true;
             result.StatusCode = 200;
         }
@@ -119,9 +120,36 @@ public class ProjectTaskCommentService : IProjectTaskCommentService
         }
         return result;
     }
-
-    public Task<MethodResponse> Update(ProjectTaskCommentDTO projectTaskCommentDTO)
+    public async Task<MethodResponse> Update(ProjectTaskCommentDTO projectTaskCommentDTO)
     {
-        throw new NotImplementedException();
+        var result = new MethodResponse();
+        if (projectTaskCommentDTO == null)
+        {
+            result.StatusCode = 400;
+            result.Message = "Bad Request";
+            return result;
+        }
+        try
+        {
+            DomainExceptionValidation.When(projectTaskCommentDTO.Id <= 0, "Invalid Id.");
+            var projectTaskCommentEntity = await _projectTaskCommentRepository.Get(projectTaskCommentDTO.Id);
+            if (projectTaskCommentEntity == null)
+            {
+                result.StatusCode = 400;
+                result.Message = "Bad Request";
+                return result;
+            }
+            projectTaskCommentEntity.Update(projectTaskCommentDTO.Comment);
+            await _projectTaskCommentRepository.Update(projectTaskCommentEntity);
+            result.Success = true;
+            result.StatusCode = 201;
+            result.Response = _mapper.Map<ProjectTaskCommentDTO>(projectTaskCommentEntity);
+        }
+        catch (Exception e)
+        {
+            result.StatusCode = 500;
+            result.Message = e.Message;
+        }
+        return result;
     }
 }

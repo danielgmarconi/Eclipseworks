@@ -31,7 +31,7 @@ namespace Eclipseworks.Domain.Entities
                            DateTime startDate,
                            DateTime endDate)
         {
-            DomainExceptionValidation.When(userId < 0, "Invalid UserId value.");
+            DomainExceptionValidation.When(userId <= 0, "Invalid UserId value.");
             ValidateDomain(name, description, startDate, endDate);
             DateModification = DateTime.Now;
         }

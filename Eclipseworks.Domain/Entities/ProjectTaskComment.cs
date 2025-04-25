@@ -9,26 +9,23 @@ namespace Eclipseworks.Domain.Entities
         public int ProjectTaskId { get; set; }
         public ProjectTask ProjectTask { get; set; }
         public string Comment { get; private set; }
-        public ProjectTaskComment(int userId, 
-                                  int projectTaskId, 
-                                  string comment)
+
+        public ProjectTaskComment(string comment)
         {
-            UserId = userId;
-            ProjectTaskId = projectTaskId;
             Comment = comment;
         }
         public void Update(string comment)
         {
-
+            DomainExceptionValidation.When(Id <= 0, "Invalid Id value.");
             Comment = comment;
-        }
-        public void ValidateDomain(int userId,
-                                  int projectTaskId,
-                                  string comment)
+            DateModification = DateTime.Now;
+            ValidateDomain();
+        }       
+        public void ValidateDomain()
         {
-            DomainExceptionValidation.When(userId < 0, "Invalid UserId value.");
-            DomainExceptionValidation.When(projectTaskId < 0, "Invalid UserId value.");
-            DomainExceptionValidation.When(!(comment.Length >= 10 && comment.Length <= 1000),
+            DomainExceptionValidation.When(UserId <= 0, "Invalid UserId value.");
+            DomainExceptionValidation.When(ProjectTaskId < 0, "Invalid UserId value.");
+            DomainExceptionValidation.When(!(Comment.Length >= 10 && Comment.Length <= 1000),
                                            "Invalid description, must be greater than or equal to 10 and less than 1000 characters");
         }
     }

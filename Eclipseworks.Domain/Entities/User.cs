@@ -30,7 +30,7 @@ namespace Eclipseworks.Domain.Entities
                            string name,
                            string password)
         {
-            DomainExceptionValidation.When(id < 0, "Invalid Id value.");
+            DomainExceptionValidation.When(id <= 0, "Invalid Id value.");
             ValidateDomain(name, Email, password);
             Id = id;
             DateModification =  DateTime.Now;
